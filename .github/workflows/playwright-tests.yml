@@ -1,0 +1,47 @@
+name: 🧪 Playwright Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+    name: Run Playwright UI and API tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+
+      # Set up Node.js (use a current LTS version)
+      - name: 🟢 Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # Install project dependencies
+      - name: 📦 Install dependencies
+        run: |
+          npm ci
+
+      # Install Playwright browsers and required system dependencies
+      - name: 🎭 Install Playwright browsers
+        run: |
+          npx playwright install --with-deps
+
+      # Run all Playwright tests (UI + API)
+      - name: 🧪 Run Playwright tests
+        run: |
+          npx playwright test
+
+      # Always upload the HTML report as an artifact so it can be inspected
+      - name: 📊 Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
