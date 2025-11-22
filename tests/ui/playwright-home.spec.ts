@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 
 // Group of basic UI tests for the public Playwright website.
-// This makes the report easier to read and keeps related tests together.
 test.describe('Playwright website - basic navigation', () => {
   // Increase timeout for all tests in this suite because we depend
   // on an external website and network conditions can be slow.
